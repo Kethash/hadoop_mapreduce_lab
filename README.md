@@ -1,1 +1,1 @@
-# hadoop-examples-mapreduce
+# hadoop-mapreduce-lab2
