@@ -1,33 +1,34 @@
 package com.opstty.job;
 
 import com.opstty.mapper.DistrictMapper;
-import com.opstty.mapper.TokenizerMapper;
-import com.opstty.reducer.DistrictReducer;
+import com.opstty.mapper.SpeciesMapper;
 import com.opstty.reducer.IntSumReducer;
+import com.opstty.reducer.SpeciesReducer;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
-public class DistrictTrees {
+public class ShowSpecies {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
         if (otherArgs.length < 2) {
-            System.err.println("Usage: districtrees <in> [<in>...] <out>");
+            System.err.println("Usage: showspecies <in> [<in>...] <out>");
             System.exit(2);
         }
-        Job job = Job.getInstance(conf, "districtrees");
-        job.setJarByClass(DistrictTrees.class);
-        job.setMapperClass(DistrictMapper.class);
-        job.setCombinerClass(DistrictReducer.class);
-        job.setReducerClass(DistrictReducer.class);
+        Job job = Job.getInstance(conf, "showspecies");
+        job.setJarByClass(ShowSpecies.class);
+        job.setMapperClass(SpeciesMapper.class);
+        job.setCombinerClass(SpeciesReducer.class);
+        job.setReducerClass(SpeciesReducer.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputValueClass(NullWritable.class);
         for (int i = 0; i < otherArgs.length - 1; ++i) {
             FileInputFormat.addInputPath(job, new Path(otherArgs[i]));
         }
