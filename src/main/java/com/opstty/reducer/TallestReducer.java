@@ -14,10 +14,10 @@ public class TallestReducer extends Reducer<Text, DoubleWritable, Text, DoubleWr
         double heigh = 0;
         for (DoubleWritable val : values) {
             // Ignoring null values
-            if (val == null) {
+            if (val != null) {
+                if (val.get() > heigh)
+                    heigh = val.get();
             }
-            else if (val.get() > heigh)
-                heigh = val.get();
         }
         result.set(heigh);
         context.write(key, result);
