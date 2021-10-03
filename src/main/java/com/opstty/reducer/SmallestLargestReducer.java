@@ -14,7 +14,6 @@ public class SmallestLargestReducer extends Reducer<DoubleWritable, Text, Double
     public void reduce(DoubleWritable key, Iterable<Text> values, Context context)
             throws IOException, InterruptedException {
 
-
         for (Text val : values) {
             // Ignoring null values
             if (val != null) {
