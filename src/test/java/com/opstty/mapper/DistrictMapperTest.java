@@ -31,6 +31,6 @@ public class DistrictMapperTest {
         String value = "anemo;geo;ignis;cryo;electro;quantum;oceano;volcano;wood;forest";
         this.districtMapper.map(null, new Text(value), this.context);
         verify(this.context, times(1))
-                .write(new Text("wood"), new IntWritable(1));
+                .write(new Text("geo"), new IntWritable(1));
     }
 }

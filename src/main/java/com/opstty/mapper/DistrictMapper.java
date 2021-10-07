@@ -20,8 +20,8 @@ public class DistrictMapper extends Mapper<Object, Text, Text, Writable> {
         if(value.toString().equals(header))
             return;
 
-        // Selecting the "ADRESSE" column (8th)
-        String str = value.toString().split(";")[8];
+        // Selecting the "ARRONDISSEMENT" column (2nd)
+        String str = value.toString().split(";")[1];
 
         try {
             word.set(str);
