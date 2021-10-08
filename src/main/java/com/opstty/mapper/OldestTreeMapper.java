@@ -25,9 +25,11 @@ public class OldestTreeMapper extends Mapper<Object, Text, NullWritable, Distric
         // Selecting the "ANNEE PLANTATION" column (6th)
         String annee_plantation = value.toString().split(";")[5];
 
+        System.out.println(district+";"+annee_plantation);
+
         try {
             da.setDistrict(Integer.parseInt(district));
-            da.setValue(Integer.parseInt(annee_plantation));
+            da.setValue(!annee_plantation.isEmpty() ? Integer.parseInt(annee_plantation) : 99999);
             context.write(nw, da);
         } catch (Exception e) {
             da.setValue(9999);

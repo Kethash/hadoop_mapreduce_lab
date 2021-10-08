@@ -41,10 +41,12 @@ public class DistrictAgeWritable implements WritableComparable<DistrictAgeWritab
 
     public void readFields(DataInput in) throws IOException {
         this.district = in.readInt();
+        this.value = in.readInt();
     }
 
     public void write(DataOutput out) throws IOException {
         out.writeInt(this.district);
+        out.writeInt(this.value);
     }
 
     public boolean equals(Object o) {
