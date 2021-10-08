@@ -4,6 +4,7 @@ import com.opstty.mapper.DistrictMapper;
 import com.opstty.mapper.OldestTreeMapper;
 import com.opstty.reducer.DistrictReducer;
 import com.opstty.reducer.OldestTreeReducer;
+import com.opstty.writable.DistrictAgeWritable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -27,8 +28,8 @@ public class DistrictOldestTree {
         job.setMapperClass(OldestTreeMapper.class);
         job.setCombinerClass(OldestTreeReducer.class);
         job.setReducerClass(OldestTreeReducer.class);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(NullWritable.class);
+        job.setOutputKeyClass(NullWritable.class);
+        job.setOutputValueClass(DistrictAgeWritable.class);
         for (int i = 0; i < otherArgs.length - 1; ++i) {
             FileInputFormat.addInputPath(job, new Path(otherArgs[i]));
         }

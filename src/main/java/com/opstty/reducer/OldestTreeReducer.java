@@ -2,24 +2,26 @@ package com.opstty.reducer;
 
 import com.opstty.writable.DistrictAgeWritable;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class OldestTreeReducer extends Reducer<Text, DistrictAgeWritable, Text, IntWritable> {
-    private IntWritable result = new IntWritable();
+public class OldestTreeReducer extends Reducer<NullWritable, DistrictAgeWritable, NullWritable, DistrictAgeWritable> {
+    private final DistrictAgeWritable result = new DistrictAgeWritable(55, 99999);
 
-    public void reduce(Text key, Iterable<DistrictAgeWritable> values, Context context)
+    public void reduce(NullWritable key, Iterable<DistrictAgeWritable> values, Context context)
             throws IOException,InterruptedException{
-        int sum=0;
-        for(DistrictAgeWritable val: values){
-            // Ignoring null values
-            if (val == null)
-                continue;
-            sum+= val.getValue();
+       for (DistrictAgeWritable val: values) {
+           /*if(val.getValue() == 0)
+               continue;*/
+           if (val.getValue() < this.result.getValue()) {
+               this.result.setDistrict(val.getDistrict());
+               this.result.setValue(val.getValue());
+           }
         }
-        result.set(sum);
-        context.write(key,result);
+
+        context.write(NullWritable.get(), result);
     }
 }

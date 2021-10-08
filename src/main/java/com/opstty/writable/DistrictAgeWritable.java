@@ -11,14 +11,14 @@ import java.io.IOException;
 
 public class DistrictAgeWritable implements WritableComparable<DistrictAgeWritable> {
     // Pair to store adress and the year of the planting
-    private Text address;
+    private int district;
     private int value;
 
     public DistrictAgeWritable() {
     }
 
-    public DistrictAgeWritable(Text address ,int value) {
-        this.setAdress(address);
+    public DistrictAgeWritable(int district ,int value) {
+        this.setDistrict(district);
         this.setValue(value);
     }
 
@@ -30,21 +30,21 @@ public class DistrictAgeWritable implements WritableComparable<DistrictAgeWritab
         return this.value;
     }
 
-    public void setAdress(Text address) {
-        this.address = address;
+    public void setDistrict(int district) {
+        this.district = district;
     }
 
-    public Text getAddress() {
-        return this.address;
+    public int getDistrict() {
+        return this.district;
     }
 
 
     public void readFields(DataInput in) throws IOException {
-        this.value = in.readInt();
+        this.district = in.readInt();
     }
 
     public void write(DataOutput out) throws IOException {
-        out.writeInt(this.value);
+        out.writeInt(this.district);
     }
 
     public boolean equals(Object o) {
@@ -52,22 +52,22 @@ public class DistrictAgeWritable implements WritableComparable<DistrictAgeWritab
             return false;
         } else {
             DistrictAgeWritable other = (DistrictAgeWritable)o;
-            return this.value == other.value;
+            return this.district == other.district;
         }
     }
 
     public int hashCode() {
-        return this.value;
+        return this.district;
     }
 
     public int compareTo(DistrictAgeWritable o) {
-        int thisValue = this.value;
-        int thatValue = o.value;
+        int thisValue = this.district;
+        int thatValue = o.district;
         return thisValue < thatValue ? -1 : (thisValue == thatValue ? 0 : 1);
     }
 
     public String toString() {
-        return Integer.toString(this.value);
+        return Integer.toString(this.district);
     }
 
     static {
