@@ -1,21 +1,25 @@
 package com.opstty.reducer;
 
+import com.opstty.writable.DistrictCountWritable;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class DistrictMostTreesReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-    private final IntWritable result = new IntWritable();
+public class DistrictMostTreesReducer extends Reducer<NullWritable, DistrictCountWritable, NullWritable, DistrictCountWritable> {
+    private final DistrictCountWritable result = new DistrictCountWritable(0,0);
 
-    public void reduce(Text key, Iterable<IntWritable> values, Context context)
+    public void reduce(NullWritable key, Iterable<DistrictCountWritable> values, Context context)
             throws IOException, InterruptedException {
-        int sum = 0;
-        for (IntWritable val : values) {
-            sum += val.get();
+
+        for (DistrictCountWritable val : values) {
+            if (val.getValue() > result.getValue()) {
+                result.setDistrict(val.getDistrict());
+                result.setValue(val.getValue());
+            }
         }
-        result.set(sum);
-        context.write(key, result);
+        context.write(NullWritable.get(), result);
     }
 }
